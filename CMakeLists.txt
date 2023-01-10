@@ -1,0 +1,17 @@
+cmake_minimum_required(VERSION 3.24)
+project(GamePackagesLib)
+
+set(CMAKE_CXX_STANDARD 17)
+
+file(GLOB_RECURSE SOURCES Source/*.cpp)
+
+add_library(GamePackagesLib ${SOURCES})
+
+target_include_directories(${PROJECT_NAME} PUBLIC Include)
+
+add_subdirectory(Libs/cryptopp-cmake)
+target_link_libraries(${PROJECT_NAME} cryptopp)
+
+# project(TestMain)
+# add_executable(TestMain main.cpp)
+# target_link_libraries(TestMain GamePackagesLib)
