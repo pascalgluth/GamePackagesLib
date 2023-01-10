@@ -92,7 +92,14 @@ namespace gpkg
         return std::move(data);
     }
 
-    void Packager::WriteFileBytes(const std::string &path, const std::vector<uint8_t> &bytes) {
+    void Packager::WriteFileBytes(const std::string &path, const std::vector<uint8_t> &bytes)
+    {
+        if (std::filesystem::exists(path) && !std::filesystem::is_directory(path))
+            std::filesystem::remove(path);
 
+        std::ofstream outFile;
+        outFile.open(path, std::ios::binary | std::ios::out);
+        outFile.write((char*)bytes.data(), bytes.size());
+        outFile.close();
     }
 }
