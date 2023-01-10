@@ -2,7 +2,7 @@
 .vscode
 .vs
 
-cmake-build-debug
+cmake-build-*
 build
 testInput
 testOutput
