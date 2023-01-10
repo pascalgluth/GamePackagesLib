@@ -10,9 +10,13 @@ add_library(GamePackagesLib ${SOURCES})
 
 target_include_directories(${PROJECT_NAME} PUBLIC Include)
 
+add_subdirectory(Libs/zlib)
+target_link_libraries(${PROJECT_NAME} zlibstatic)
+target_include_directories(${PROJECT_NAME} PRIVATE Libs)
+
 add_subdirectory(Libs/cryptopp-cmake)
 target_link_libraries(${PROJECT_NAME} cryptopp)
 
-#project(TestMain)
-#add_executable(TestMain main.cpp)
-#target_link_libraries(TestMain GamePackagesLib)
+project(TestMain)
+add_executable(TestMain main.cpp)
+target_link_libraries(TestMain GamePackagesLib)

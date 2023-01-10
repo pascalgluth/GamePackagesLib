@@ -30,13 +30,14 @@ namespace gpkg
     class StreamedPackage : public IDataPackage
     {
     public:
-        StreamedPackage(const std::string& fullPath, bool encrypted = false, const std::vector<uint8_t>& key = {}, const std::vector<uint8_t>& iv = {});
+        StreamedPackage(const std::string& fullPath, bool useCompression = false, bool encrypted = false, const std::vector<uint8_t>& key = {}, const std::vector<uint8_t>& iv = {});
 
         std::vector<uint8_t> ReadFileBytes(const std::string &relativePath) override;
         std::string ReadFileText(const std::string &relativePath) override;
 
     private:
         std::string m_fullPath;
+        bool m_useCompression;
         bool m_encrypted;
         std::vector<uint8_t> m_key;
         std::vector<uint8_t> m_iv;

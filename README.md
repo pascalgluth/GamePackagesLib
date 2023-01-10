@@ -72,3 +72,18 @@ std::string fileText = myPackage.ReadFileText("myAwesomeText.txt");
 // Read file as byte array
 std::vector<uint8_t> myImage = myPackage.ReadFileBytes("myImage.png");
 ```
+
+### Compression
+
+- Compression is disabled by default. It can be enabled via an option when creating and reading the package
+- Compression is compatible both without and with encryption enabled
+- This is useful when dealing with larger games
+- When your game is rather small, the runtime overhead of using compression may exceed its benefits
+
+```cpp
+// Set `useCompression` option to `true`
+gpkg::Packager::CreateStreamedPackage("../testInput", "../testOutput", "TestPackage", true);
+
+// Also set `useCompression` option to `true`
+gpkg::StreamedPackage testPackage = { "../testOutput/TestPackage.gpkg", true };
+```

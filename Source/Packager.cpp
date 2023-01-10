@@ -2,6 +2,8 @@
 
 #include <filesystem>
 #include <fstream>
+#include <zlib/zlib.h>
+#include <iostream>
 
 #include "GamePackages/StreamedPackage.h"
 #include "GamePackages/Encryption.h"
@@ -10,7 +12,7 @@ namespace gpkg
 {
 
     void Packager::CreateStreamedPackage(const std::string &fullPath, const std::string &outputPath,
-                                         const std::string &packageName, bool encrypted,
+                                         const std::string &packageName, bool useCompression, bool encrypted,
                                          const std::vector<uint8_t> &key, const std::vector<uint8_t> &iv)
     {
         std::vector<uint8_t> dataBytes;
@@ -24,6 +26,19 @@ namespace gpkg
             if (!dirEntry.is_directory())
             {
                 std::vector<uint8_t> fileBytes = ReadFileBytes(dirEntry.path().string());
+
+                if (useCompression)
+                {
+                    std::vector<uint8_t> compressedData(compressBound(fileBytes.size()));
+                    uLongf compressedDataSize = compressedData.size();
+                    int result = compress(&compressedData[0], &compressedDataSize, fileBytes.data(), fileBytes.size());
+                    if (result != Z_OK)
+                        throw std::runtime_error("Failed to compress data");
+                    compressedData.resize(compressedDataSize);
+
+                    fileBytes.clear();
+                    fileBytes.insert(fileBytes.end(), compressedData.begin(), compressedData.end());
+                }
 
                 if (encrypted)
                 {

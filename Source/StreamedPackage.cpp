@@ -1,15 +1,17 @@
 #include "GamePackages/StreamedPackage.h"
 
 #include <fstream>
+#include "zlib/zlib.h"
 
 #include "GamePackages/Encryption.h"
 
 namespace gpkg
 {
-    StreamedPackage::StreamedPackage(const std::string &fullPath, bool encrypted, const std::vector<uint8_t> &key,
+    StreamedPackage::StreamedPackage(const std::string &fullPath, bool useCompression, bool encrypted, const std::vector<uint8_t> &key,
                                      const std::vector<uint8_t> &iv)
     {
         m_fullPath = fullPath;
+        m_useCompression = useCompression;
         m_encrypted = encrypted;
         m_key = key;
         m_iv = iv;
@@ -75,6 +77,44 @@ namespace gpkg
                 if (m_encrypted)
                 {
                     bytes = Encryption::DecryptBytes(bytes, m_key, m_iv);
+                }
+
+                if (m_useCompression)
+                {
+                    z_stream stream;
+                    stream.zalloc = Z_NULL;
+                    stream.zfree = Z_NULL;
+                    stream.opaque = Z_NULL;
+                    stream.avail_in = bytes.size();
+                    stream.next_in = &bytes[0];
+                    stream.avail_out = 0;
+                    stream.next_out = Z_NULL;
+                    inflateInit(&stream);
+
+                    std::vector<uint8_t> decompressionBuffer;
+
+                    int ret;
+                    do
+                    {
+                        decompressionBuffer.resize(decompressionBuffer.size() + 1024);
+
+                        stream.avail_out = 1024;
+                        stream.next_out = &decompressionBuffer[decompressionBuffer.size()-1024];
+
+                        ret = inflate(&stream, Z_NO_FLUSH);
+                        if (ret == Z_STREAM_ERROR)
+                        {
+                            inflateEnd(&stream);
+                            throw std::runtime_error("Error decompressing data");
+                        }
+
+                        decompressionBuffer.resize(decompressionBuffer.size()-stream.avail_out);
+                    }
+                    while (ret != Z_STREAM_END);
+                    inflateEnd(&stream);
+
+                    bytes.clear();
+                    bytes.insert(bytes.end(), decompressionBuffer.begin(), decompressionBuffer.end());
                 }
 
                 break;
