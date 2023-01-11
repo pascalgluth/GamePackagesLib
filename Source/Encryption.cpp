@@ -1,5 +1,6 @@
 #include "GamePackages/Encryption.h"
 
+#define BLOCKING_RNG_AVAILABLE
 #include "osrng.h"
 #include "modes.h"
 #include "base64.h"

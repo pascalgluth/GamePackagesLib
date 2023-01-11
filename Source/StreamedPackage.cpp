@@ -128,10 +128,10 @@ namespace gpkg
     {
         std::vector<uint8_t> bytes = ReadFileBytes(relativePath);
 
-        char buffer[bytes.size()];
+        //char buffer[bytes.size()];
         //memcpy(buffer, bytes.data(), bytes.size());
-        strcpy(buffer, reinterpret_cast<char*>(bytes.data()));
+        //strcpy(buffer, reinterpret_cast<char*>(bytes.data()));
 
-        return std::string(buffer);
+        return std::string(bytes.begin(), bytes.end());
     }
 }
