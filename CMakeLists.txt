@@ -21,4 +21,4 @@ target_link_libraries(${PROJECT_NAME} cryptopp)
 
 #project(TestMain)
 #add_executable(TestMain main.cpp)
-#target_link_libraries(TestMain GamePackagesLib)
+#target_link_libraries(TestMain GamePackagesLib)project(TestMain)

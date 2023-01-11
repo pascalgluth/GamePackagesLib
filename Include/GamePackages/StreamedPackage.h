@@ -21,7 +21,11 @@ namespace gpkg
         FileEntry(const char* _relativePath, uint64_t _offset, uint64_t _size)
             : FileEntry()
         {
+#ifdef WIN32
+            strcpy_s(relativePath, _relativePath);
+#else
             strcpy(relativePath, _relativePath);
+#endif
             offset = _offset;
             size = _size;
         }
@@ -34,6 +38,8 @@ namespace gpkg
 
         std::vector<uint8_t> ReadFileBytes(const std::string &relativePath) override;
         std::string ReadFileText(const std::string &relativePath) override;
+        int FileCount() override;
+        bool Contains(const std::string &file) override;
 
     private:
         std::string m_fullPath;

@@ -1,6 +1,5 @@
 #include "GamePackages/Encryption.h"
 
-#define BLOCKING_RNG_AVAILABLE
 #include "osrng.h"
 #include "modes.h"
 #include "base64.h"
@@ -48,7 +47,11 @@ namespace gpkg
         std::vector<uint8_t> key(256 / 8);
         std::vector<uint8_t> iv(CryptoPP::AES::BLOCKSIZE);
 
+#ifdef BLOCKING_RNG_AVAILABLE
         CryptoPP::BlockingRng rng;
+#else
+        CryptoPP::DefaultAutoSeededRNG rng;
+#endif
         rng.GenerateBlock(key.data(), key.size());
         rng.GenerateBlock(iv.data(), iv.size());
 

@@ -134,4 +134,20 @@ namespace gpkg
 
         return std::string(bytes.begin(), bytes.end());
     }
+
+    int StreamedPackage::FileCount()
+    {
+        return m_lookupTable.size();
+    }
+
+    bool StreamedPackage::Contains(const std::string &file)
+    {
+        for (int i = 0; i < m_lookupTable.size(); ++i)
+        {
+            if (std::string(m_lookupTable[i].relativePath) == file)
+                return true;
+        }
+
+        return false;
+    }
 }
