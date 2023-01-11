@@ -18,7 +18,7 @@ A library to create game packages for game assets.
 - All files in the given input directory will be recursively added to the package
 - E.g. With input "../testInput"
   - "../testInput/myImage.png" will be "myImage.png" in the Package
-  - "../testInput/subFolder/text.txt" will be "subFolder/text.txt" in the Package
+  - "../testInput/subFolder/text.txt" will be "subFolder/text.txt" (or "subFolder\text.txt" on windows) in the Package 
 
 ### Create and read streamed package without encryption
 
