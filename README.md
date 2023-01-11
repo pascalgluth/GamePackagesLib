@@ -52,10 +52,10 @@ int main()
     gpkg::Encryption::GenerateRSA256(&key, &iv);
     
     // Create the package
-    gpkg::Packager::CreateStreamedPackage("../testInput", "../testOutput", "EncryptedTestPackage", true, key, iv);
+    gpkg::Packager::CreateStreamedPackage("../testInput", "../testOutput", "EncryptedTestPackage", false, true, key, iv);
     
     // Read the package later
-    gpkg::StreamedPackage encryptedPackage = { "../testOutput/EncryptedTestPackage.gpkg", true, key, iv };
+    gpkg::StreamedPackage encryptedPackage = { "../testOutput/EncryptedTestPackage.gpkg", false, true, key, iv };
     
     return 0;
 }
