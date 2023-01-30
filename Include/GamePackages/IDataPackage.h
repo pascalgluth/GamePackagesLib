@@ -3,9 +3,11 @@
 #include <vector>
 #include <string>
 
+#include "CoreMacros.h"
+
 namespace gpkg
 {
-    class IDataPackage
+    class GPKG_API IDataPackage
     {
     public:
         virtual std::vector<uint8_t> ReadFileBytes(const std::string& relativePath) = 0;

@@ -2,9 +2,11 @@
 
 #include <vector>
 
+#include "CoreMacros.h"
+
 namespace gpkg
 {
-    class Encryption
+    class GPKG_API Encryption
     {
     public:
         static std::vector<uint8_t> EncryptBytes(const std::vector<uint8_t>& data, const std::vector<uint8_t>& key, const std::vector<uint8_t>& iv);

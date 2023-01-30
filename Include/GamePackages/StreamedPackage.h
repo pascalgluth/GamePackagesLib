@@ -1,10 +1,11 @@
 #pragma once
 
 #include "IDataPackage.h"
+#include "CoreMacros.h"
 
 namespace gpkg
 {
-    struct FileEntry
+    struct GPKG_API FileEntry
     {
         char relativePath[128]; // 128 bytes
         uint64_t offset; // 8 bytes
@@ -31,7 +32,7 @@ namespace gpkg
         }
     };
 
-    class StreamedPackage : public IDataPackage
+    class GPKG_API StreamedPackage : public IDataPackage
     {
     public:
         StreamedPackage(const std::string& fullPath, bool useCompression = false, bool encrypted = false, const std::vector<uint8_t>& key = {}, const std::vector<uint8_t>& iv = {});
