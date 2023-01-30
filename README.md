@@ -7,6 +7,12 @@ A library to create game packages for game assets.
 - Add the library directory to your CMake project with `add_subdirectory(...)`
 - Link to the library with `target_link_libraries(${PROJECT_NAME} GamePackagesLib)`
 
+## Prebuilt Binaries
+
+- Binaries are available under Releases
+- Link to the .lib Library and add the DLL file to your executable directory
+- Add the include/ to your project's include paths
+
 ## Building
 
 - The library can be built as a static library
