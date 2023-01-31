@@ -14,14 +14,12 @@ add_definitions(-DGPKG_BUILD_LIBRARY)
 
 add_library(GamePackagesLib SHARED ${SOURCES})
 
-set_target_properties(${PROJECT_NAME} PROPERTIES POSITION_INDEPENDENT_CODE ON)
-
 add_subdirectory(Libs/zlib)
 add_subdirectory(Libs/cryptopp-cmake)
 
 target_include_directories(${PROJECT_NAME} PUBLIC Include)
 
-target_link_libraries(${PROJECT_NAME} zlibstatic)
+target_link_libraries(${PROJECT_NAME} zlib)
 #add_dependencies(${PROJECT_NAME} zlibstatic)
 target_include_directories(${PROJECT_NAME} PRIVATE Libs)
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/Libs/zlib)
