@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdint.h>
+
 #ifdef _WIN32
 #ifdef GPKG_BUILD_LIBRARY
 #define GPKG_API __declspec(dllexport)
