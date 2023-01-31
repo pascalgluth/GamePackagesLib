@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include <cstring>
 
 #ifdef _WIN32
 #ifdef GPKG_BUILD_LIBRARY
