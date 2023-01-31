@@ -2,7 +2,11 @@ cmake_minimum_required(VERSION 3.24)
 project(GamePackagesLib)
 
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_FLAGS_RELEASE "/O2")
+if(WIN32)
+  set(CMAKE_CXX_FLAGS_RELEASE "/O2")
+else()
+  set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+endif()
 
 file(GLOB_RECURSE SOURCES Source/*.cpp)
 
