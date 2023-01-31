@@ -1,5 +1,7 @@
 # GamePackagesLib
 
+[![CMake](https://github.com/pascalgluth/GamePackagesLib/actions/workflows/cmake.yml/badge.svg)](https://github.com/pascalgluth/GamePackagesLib/actions/workflows/cmake.yml)
+
 A library to create game packages for game assets.
 
 ## Adding library to CMake project
