@@ -13,13 +13,31 @@ namespace gpkg
 
     void Packager::CreateStreamedPackage(const std::string &fullPath, const std::string &outputPath,
                                          const std::string &packageName, bool useCompression, bool encrypted,
-                                         const std::vector<uint8_t> &key, const std::vector<uint8_t> &iv)
+                                         const std::vector<uint8_t> &key, const std::vector<uint8_t> &iv,
+                                         std::function<void(int)> fileCountChangedCallback,
+                                         std::function<void()> fileDoneCallback,
+                                         std::function<void()> completedCallback)
     {
         std::vector<uint8_t> dataBytes;
         std::vector<FileEntry> lookupTable;
 
         if (!std::filesystem::exists(fullPath) || !std::filesystem::is_directory(fullPath))
             return;
+
+        int count = 0;
+
+        for (const auto& dirEntry : std::filesystem::recursive_directory_iterator(fullPath))
+        {
+            if (!dirEntry.is_directory())
+            {
+                count++;
+            }
+        }
+
+        if (fileCountChangedCallback)
+        {
+            fileCountChangedCallback(count);
+        }
 
         for (const auto& dirEntry : std::filesystem::recursive_directory_iterator(fullPath))
         {
@@ -51,6 +69,8 @@ namespace gpkg
 
                 dataBytes.insert(dataBytes.end(), fileBytes.begin(), fileBytes.end());
                 lookupTable.emplace(lookupTable.end(), FileEntry(relative.c_str(), offset, size));
+            
+                if (fileDoneCallback) fileDoneCallback();
             }
         }
 
@@ -84,6 +104,8 @@ namespace gpkg
         outFile.write((char*)dataBytes.data(), dataBytes.size());
 
         outFile.close();
+
+        if (completedCallback) completedCallback();
     }
 
     std::vector<uint8_t> Packager::ReadFileBytes(const std::string &path)
