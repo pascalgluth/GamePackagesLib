@@ -44,6 +44,7 @@ namespace gpkg
             if (!dirEntry.is_directory())
             {
                 std::vector<uint8_t> fileBytes = ReadFileBytes(dirEntry.path().string());
+                if (fileBytes.size() <= 0) continue;
 
                 if (useCompression)
                 {
