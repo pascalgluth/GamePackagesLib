@@ -1,6 +1,7 @@
 #include "GamePackages/StreamedPackage.h"
 
 #include <fstream>
+#include <algorithm>
 #include "zlib/zlib.h"
 
 #include "GamePackages/Encryption.h"
@@ -58,11 +59,13 @@ namespace gpkg
 
     std::vector<uint8_t> StreamedPackage::ReadFileBytes(const std::string &relativePath)
     {
+        std::string relative = relativePath;
+        std::replace(relative.begin(), relative.end(), '\\', '/');
         std::vector<uint8_t> bytes;
 
         for (int i = 0; i < m_lookupTable.size(); ++i)
         {
-            if (std::string(m_lookupTable[i].relativePath) == relativePath)
+            if (std::string(m_lookupTable[i].relativePath) == relative)
             {
                 std::vector<char> bytesRead(m_lookupTable[i].size, 0);
 
@@ -149,5 +152,17 @@ namespace gpkg
         }
 
         return false;
+    }
+
+    std::vector<std::tuple<std::string, size_t, size_t>> StreamedPackage::GetFilesInPackage()
+    {
+        std::vector<std::tuple<std::string, size_t, size_t>> files;
+
+        for (int i = 0; i < m_lookupTable.size(); ++i)
+        {
+            files.push_back(std::make_tuple(m_lookupTable[i].relativePath, m_lookupTable[i].offset, m_lookupTable[i].size));
+        }
+
+        return std::move(files);
     }
 }

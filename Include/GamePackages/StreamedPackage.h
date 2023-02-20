@@ -41,6 +41,7 @@ namespace gpkg
         std::string ReadFileText(const std::string &relativePath) override;
         int FileCount() override;
         bool Contains(const std::string &file) override;
+        std::vector<std::tuple<std::string, size_t, size_t>> GetFilesInPackage();
 
     private:
         std::string m_fullPath;

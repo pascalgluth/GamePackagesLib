@@ -68,6 +68,8 @@ namespace gpkg
                 uint64_t offset = dataBytes.size();
                 uint64_t size = fileBytes.size();
 
+                std::replace(relative.begin(), relative.end(), '\\', '/');
+
                 dataBytes.insert(dataBytes.end(), fileBytes.begin(), fileBytes.end());
                 lookupTable.emplace(lookupTable.end(), FileEntry(relative.c_str(), offset, size));
             
