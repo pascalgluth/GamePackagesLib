@@ -1,6 +1,7 @@
 # GamePackagesLib
 
 [![CMake](https://github.com/pascalgluth/GamePackagesLib/actions/workflows/cmake.yml/badge.svg)](https://github.com/pascalgluth/GamePackagesLib/actions/workflows/cmake.yml)
+[![CodeFactor](https://www.codefactor.io/repository/github/pascalgluth/gamepackageslib/badge/main)](https://www.codefactor.io/repository/github/pascalgluth/gamepackageslib/overview/main)
 
 A library to create game packages for game assets.
 
