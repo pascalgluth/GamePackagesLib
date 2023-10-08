@@ -19,11 +19,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+      with:
+        ref: ${{ github.head_ref }}
+        fetch-depth: 0
 
-    - name: Extract Tag Version
-      id: extract_version
-      run: echo "::set-output name=version::$(echo ${GITHUB_REF} | sed 's/refs\/tags\/v//')"
-
+    - name: Git Version
+      uses: codacy/git-version@2.4.0
+      with:
+        release-branch: main
+        dev-branch: dev
+      
     - name: Install PIP
       run: sudo apt update && sudo apt install python3-pip
 
@@ -37,7 +42,7 @@ jobs:
       run: conan remote login LightbowConan ${{secrets.CONAN_REGISTRY_USER}} -p ${{secrets.CONAN_REGISTRY_PASSWORD}}
 
     - name: Run Conan Create
-      run: conan create ${{github.workspace}} --build=missing --version=${{ steps.extract_version.outputs.version }}
+      run: conan create ${{github.workspace}} --build=missing --version=${{ steps.version.outputs.version }}
 
     - name: Run Conan Upload
       run: conan upload gamepackages -r=LightbowConan
