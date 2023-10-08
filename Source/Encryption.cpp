@@ -1,8 +1,8 @@
 #include "GamePackages/Encryption.h"
 
-#include "osrng.h"
-#include "modes.h"
-#include "base64.h"
+#include "cryptopp/osrng.h"
+#include "cryptopp/modes.h"
+#include "cryptopp/base64.h"
 
 namespace gpkg
 {

@@ -2,7 +2,7 @@
 
 #include <filesystem>
 #include <fstream>
-#include <zlib/zlib.h>
+#include <zlib.h>
 #include <iostream>
 
 #include "GamePackages/StreamedPackage.h"

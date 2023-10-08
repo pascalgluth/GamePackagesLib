@@ -2,7 +2,7 @@
 
 #include <fstream>
 #include <algorithm>
-#include "zlib/zlib.h"
+#include "zlib.h"
 
 #include "GamePackages/Encryption.h"
 
