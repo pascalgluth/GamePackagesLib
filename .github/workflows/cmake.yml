@@ -1,4 +1,4 @@
-name: CMake
+name: Publish Release
 
 on:
   push:
@@ -19,15 +19,21 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    
-    - name: Update Submodule
-      run: git submodule update --init
 
-    - name: Configure CMake
-      # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
-      # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+    - name: Install PIP
+      run: sudo apt update && sudo apt install python3-pip
 
-    - name: Build
-      # Build your program with the given configuration
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+    - name: Install Conan
+      run: pip install conan && source ~/.profile && conan profile detect
+
+    - name: Add conan remote
+      run: conan remote add LightbowConan ${{secrets.CONAN_REGISTRY_URL}}
+
+    - name: Add conan user
+      run: conan remote login LightbowConan ${{secrets.CONAN_REGISTRY_USER}} -p ${{secrets.CONAN_REGISTRY_PASSWORD}}
+
+    - name: Run Conan Create
+      run: conan create ${{github.workspace}} --build=missing
+
+    - name: Run Conan Upload
+      run: conan upload gamepackages -r=LightbowConan
