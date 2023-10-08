@@ -24,13 +24,13 @@ jobs:
       run: sudo apt update && sudo apt install python3-pip
 
     - name: Install Conan
-      run: pip install conan && source ~/.profile
+      run: pip install conan && source ~/.profile && conan profile detect
 
     - name: Add conan remote
       run: conan remote add LightbowConan ${{secrets.CONAN_REGISTRY_URL}}
 
     - name: Add conan user
-      run: conan user ${{secrets.CONAN_REGISTRY_USER}} -p ${{secrets.CONAN_REGISTRY_PASSWORD}} -r LightbowConan
+      run: conan remote login LightbowConan ${{secrets.CONAN_REGISTRY_USER}} -p ${{secrets.CONAN_REGISTRY_PASSWORD}}
 
     - name: Run Conan Create
       run: conan create ${{github.workspace}} --build=missing
