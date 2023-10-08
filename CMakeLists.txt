@@ -25,3 +25,5 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 
 install(TARGETS gamepackages)
 install(DIRECTORY Include/GamePackages DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+
+# .
