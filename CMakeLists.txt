@@ -13,7 +13,11 @@ file(GLOB_RECURSE SOURCES Source/*.cpp)
 add_definitions(-DGPKG_BUILD_LIBRARY)
 
 add_library(gamepackages STATIC ${SOURCES})
-target_include_directories(${PROJECT_NAME} PUBLIC Include)
+target_include_directories(${PROJECT_NAME}
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Include>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
 
 find_package(ZLIB REQUIRED)
 find_package(cryptopp REQUIRED)
@@ -23,7 +27,15 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
         cryptopp::cryptopp
     )
 
-install(TARGETS gamepackages)
-install(DIRECTORY Include/GamePackages DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+install(TARGETS gamepackages
+    EXPORT GameEngine2Targets
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
+install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/Include/"
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
 
 # .
