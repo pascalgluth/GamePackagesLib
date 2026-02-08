@@ -10,9 +10,8 @@ endif()
 
 file(GLOB_RECURSE SOURCES Source/*.cpp)
 
-add_definitions(-DGPKG_BUILD_LIBRARY)
-
 add_library(gamepackages STATIC ${SOURCES})
+target_compile_definitions(gamepackages PUBLIC GPKG_BUILD_LIBRARY)
 target_include_directories(${PROJECT_NAME}
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Include>
