@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <algorithm>
+#include <tuple>
 #include "zlib.h"
 
 #include "GamePackages/Encryption.h"
