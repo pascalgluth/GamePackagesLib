@@ -11,6 +11,7 @@ endif()
 file(GLOB_RECURSE SOURCES Source/*.cpp)
 
 add_library(gamepackages STATIC ${SOURCES})
+set_target_properties(gamepackages PROPERTIES POSITION_INDEPENDENT_CODE ON)
 target_compile_definitions(gamepackages PUBLIC GPKG_BUILD_LIBRARY)
 target_include_directories(${PROJECT_NAME}
     PUBLIC
